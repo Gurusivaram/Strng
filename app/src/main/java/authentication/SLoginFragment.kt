@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import authentication.SAuthenticationActivity.Companion.VERIFICATION_TAG
 import com.example.strng.R
@@ -15,7 +17,7 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import utils.SUtils
 
-class SLoginFragment : Fragment() {
+class SLoginFragment : Fragment(R.layout.s_fragment_login) {
     private lateinit var loginBinding: SFragmentLoginBinding
     private lateinit var hostContext: SAuthenticationActivity
     private lateinit var loginViewModel: SLoginViewModel
@@ -66,17 +68,29 @@ class SLoginFragment : Fragment() {
         }
     }
 
-    private fun initObservers(){
+    private fun initObservers() {
         loginViewModel.isMobileNumberValid.observe(viewLifecycleOwner, {
-            if(it){
-                hostContext.navigateToFragment(VERIFICATION_TAG)
-            }else{
+            if (it) {
+                hostContext.supportFragmentManager.apply {
+                    val previousFragment = findFragmentById(R.id.fc_authentication_login)
+                    if (previousFragment != null) {
+                        beginTransaction()
+                            .remove(previousFragment)
+                            .commit()
+                        commit {
+                            setReorderingAllowed(true)
+                            replace<SVerificationFragment>(R.id.fc_authentication_verification)
+                            addToBackStack(null)
+                        }
+                    }
+                }
+            } else {
                 loginBinding.tieMobileNumber.error = getString(R.string.error_mobile_number_invalid)
             }
         })
     }
 
-    private fun initClickListeners(){
+    private fun initClickListeners() {
         loginBinding.btnGetIn.setOnClickListener {
             loginViewModel.checkForValidMobileNumber()
         }

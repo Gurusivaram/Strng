@@ -1,10 +1,9 @@
 package authentication
 
-import android.R.attr.delay
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import authentication.SAuthenticationActivity.Companion.LOGIN_TAG
 import com.example.strng.R
@@ -26,15 +27,13 @@ import utils.SUtils
 import java.util.concurrent.TimeUnit
 
 
-class SVerificationFragment : Fragment() {
+class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private lateinit var verificationBinding: SFragmentVerificationBinding
     private lateinit var hostContext: SAuthenticationActivity
     private lateinit var authenticationViewModel: SAuthenticationViewModel
     private lateinit var verificationViewModel: SVerificationViewModel
     private lateinit var alerts: SUtils
     private var mVerificationId = ""
-    lateinit var countdown_timer: CountDownTimer
-    private var counter = 60
     private lateinit var mAuth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +65,8 @@ class SVerificationFragment : Fragment() {
 
     private fun initToolbar() {
         val radius = (resources.getDimension(R.dimen.spacing_70) / resources.displayMetrics.density)
-        val materialShapeDrawable = verificationBinding.toolbarVerification.background as MaterialShapeDrawable
+        val materialShapeDrawable =
+            verificationBinding.toolbarVerification.background as MaterialShapeDrawable
         materialShapeDrawable.shapeAppearanceModel = materialShapeDrawable.shapeAppearanceModel
             .toBuilder()
             .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
@@ -75,41 +75,62 @@ class SVerificationFragment : Fragment() {
     }
 
     private fun intiTextWatchers() {
-        with(verificationBinding){
-            with(verificationViewModel){
+        with(verificationBinding) {
+            with(verificationViewModel) {
                 tieOtp1.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp1.text.toString().length > 1) {
                         otp1 = it.last().toString()
+                        tieOtp1.setText(it.last().toString())
+                    } else if (tieOtp1.text.toString().length == 1) {
+                        tieOtp2.requestFocus()
                     }
-                    tieOtp2.requestFocus()
                 }
                 tieOtp2.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp2.text.toString().length > 1) {
                         otp2 = it.last().toString()
+                        tieOtp2.setText(it.last().toString())
+                    } else if (it.toString().isNullOrEmpty()) {
+                        tieOtp1.requestFocus()
+                    } else if (tieOtp2.text.toString().length == 1) {
+                        tieOtp3.requestFocus()
                     }
-                    tieOtp3.requestFocus()
                 }
                 tieOtp3.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp3.text.toString().length > 1) {
                         otp3 = it.last().toString()
+                        tieOtp3.setText(it.last().toString())
+                    } else if (it.toString().isNullOrEmpty()) {
+                        tieOtp2.requestFocus()
+                    } else if (tieOtp3.text.toString().length == 1) {
+                        tieOtp4.requestFocus()
                     }
-                    tieOtp4.requestFocus()
                 }
                 tieOtp4.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp4.text.toString().length > 1) {
                         otp4 = it.last().toString()
+                        tieOtp4.setText(it.last().toString())
+                    } else if (it.toString().isNullOrEmpty()) {
+                        tieOtp3.requestFocus()
+                    } else if (tieOtp4.text.toString().length == 1) {
+                        tieOtp5.requestFocus()
                     }
-                    tieOtp5.requestFocus()
                 }
                 tieOtp5.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp5.text.toString().length > 1) {
                         otp5 = it.last().toString()
+                        tieOtp5.setText(it.last().toString())
+                    } else if (it.toString().isNullOrEmpty()) {
+                        tieOtp4.requestFocus()
+                    } else if (tieOtp5.text.toString().length == 1) {
+                        tieOtp6.requestFocus()
                     }
-                    tieOtp6.requestFocus()
                 }
                 tieOtp6.doAfterTextChanged {
-                    if (it != null) {
+                    if (it != null && tieOtp6.text.toString().length > 1) {
                         otp6 = it.last().toString()
+                        tieOtp6.setText(it.last().toString())
+                    } else if (it.toString().isNullOrEmpty()) {
+                        tieOtp5.requestFocus()
                     }
                 }
             }
@@ -125,56 +146,76 @@ class SVerificationFragment : Fragment() {
         }
     }
 
-    private fun initTimerForOTP(){
-//        with(verificationBinding){
-//            handler.postDelayed({
-//                --counter
-//                tvResendOtpTimer.text = counter.toString()
-//                if (counter == 0) {
-//                    handler.removeCallbacksAndMessages(null)
-//                }
-//            }, 1000)
-//        }
+    private fun initTimerForOTP() {
+        var counter = 60
+        verificationViewModel.countDownTimer.value = counter
+        object : CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                verificationBinding.tvResendOtpTimer.text =
+                    "${verificationViewModel.countDownTimer.value.toString()}s"
+                verificationViewModel.countDownTimer.value = --counter
+            }
 
-        countdown_timer = object : CountDownTimer(60, 1000) {
             override fun onFinish() {
-                println("countdown finished")
+//                textView.setText("FINISH!!")
             }
-
-            override fun onTick(p0: Long) {
-//                time_in_milli_seconds = p0
-//                updateTextUI()
-                println("tick tick $p0")
-            }
-        }
-        countdown_timer.start()
+        }.start()
 
     }
 
     private fun initClickListeners() {
-        with(verificationBinding){
+        with(verificationBinding) {
             btnVerification.setOnClickListener {
                 verificationViewModel.checkOTP()
             }
             tvVerificationHeading.setOnClickListener {
-                hostContext.navigateToFragment(LOGIN_TAG)
-            }
-            tvResendOtp.setOnClickListener {
-                initTimerForOTP()
+                hostContext.supportFragmentManager.apply {
+                    val previousFragment = findFragmentById(R.id.fc_authentication_verification)
+                    if (previousFragment != null) {
+                        beginTransaction()
+                            .remove(previousFragment)
+                            .commit()
+                        commit {
+                            setReorderingAllowed(true)
+                            replace<SLoginFragment>(R.id.fc_authentication_login)
+                            addToBackStack(null)
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun initObservers(){
-        verificationViewModel.isOTPNumberValid.observe(viewLifecycleOwner, {
-            if (it) {
-                with(verificationViewModel) {
-                    verifyVerificationCode("$otp1$otp2$otp3$otp4$otp5$otp6")
+    private fun initObservers() {
+        with(verificationViewModel) {
+            isOTPNumberValid.observe(viewLifecycleOwner, {
+                if (it) {
+                    with(verificationViewModel) {
+                        verifyVerificationCode("$otp1$otp2$otp3$otp4$otp5$otp6")
+                    }
+                } else {
+                    verificationBinding.tvVerificationResult.text = "Enter valid OTP"
                 }
-            } else {
-                //error --> enter valid otp
-            }
-        })
+            })
+            countDownTimer.observe(viewLifecycleOwner, {
+                if (it != null && it == 0) {
+                    with(verificationBinding) {
+                        tvResendOtp.typeface = Typeface.DEFAULT_BOLD
+                        tvResendOtp.setTextColor(resources.getColor(R.color.appColor))
+                    }
+                    verificationBinding.tvResendOtp.setOnClickListener {
+                        if (countDownTimer.value == 0)
+                            initTimerForOTP()
+                        sendVerificationCode(authenticationViewModel.mobileNumber)
+                    }
+                } else {
+                    with(verificationBinding) {
+                        tvResendOtp.typeface = Typeface.DEFAULT
+                        tvResendOtp.setTextColor(resources.getColor(R.color.appText))
+                    }
+                }
+            })
+        }
     }
 
     private fun sendVerificationCode(number: String) {
@@ -190,6 +231,7 @@ class SVerificationFragment : Fragment() {
     private val mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks =
         object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+                println("phone auth output   $phoneAuthCredential")
                 val code = phoneAuthCredential.smsCode
                 if (code != null) {
 //                    verificationBinding.tieOtp4.setText(code)
@@ -208,6 +250,7 @@ class SVerificationFragment : Fragment() {
             ) {
                 super.onCodeSent(s, forceResendingToken)
                 mVerificationId = s
+                verificationBinding.tvVerificationResult.text = "Verification Code Sent"
             }
         }
 

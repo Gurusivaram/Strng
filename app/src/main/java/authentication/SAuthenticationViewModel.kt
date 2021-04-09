@@ -1,6 +1,7 @@
 package authentication
 
-import androidx.lifecycle.MutableLiveData
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 
 class SAuthenticationViewModel : ViewModel() {
