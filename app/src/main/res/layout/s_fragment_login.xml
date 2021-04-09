@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_toolbar_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -63,6 +64,9 @@
         android:id="@+id/til_mobile_number"
         style="@style/TextInputLayout"
         app:colorControlActivated="@color/black"
+        android:layout_marginStart="@dimen/spacing_15"
+        android:layout_marginEnd="@dimen/spacing_15"
+        android:layout_marginTop="@dimen/spacing_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +81,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button"
+        android:id="@+id/btn_get_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_15"

@@ -25,9 +25,9 @@
         <item name="hintAnimationEnabled">false</item>
         <item name="hintEnabled">false</item>
         <item name="boxBackgroundMode">outline</item>
-        <item name="android:layout_marginEnd">@dimen/spacing_15</item>
-        <item name="android:layout_marginStart">@dimen/spacing_15</item>
-        <item name="android:layout_marginTop">@dimen/spacing_15</item>
+<!--        <item name="android:layout_marginEnd">@dimen/spacing_15</item>-->
+<!--        <item name="android:layout_marginStart">@dimen/spacing_15</item>-->
+<!--        <item name="android:layout_marginTop">@dimen/spacing_15</item>-->
     </style>
 
     <style name="TextInput" parent="TextAppearance.AppCompat">
