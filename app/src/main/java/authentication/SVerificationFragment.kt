@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
-import authentication.SAuthenticationActivity.Companion.LOGIN_TAG
 import chats.SChatsActivity
 import com.example.strng.R
 import com.example.strng.databinding.SFragmentVerificationBinding
@@ -216,7 +215,7 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
                 } else {
                     with(verificationBinding) {
                         tvResendOtp.typeface = Typeface.DEFAULT
-                        tvResendOtp.setTextColor(resources.getColor(R.color.appText))
+                        tvResendOtp.setTextColor(resources.getColor(R.color.appText1))
                     }
                 }
             })
