@@ -1,6 +1,7 @@
 package authentication
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -15,6 +16,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import authentication.SAuthenticationActivity.Companion.LOGIN_TAG
+import chats.SChatsActivity
 import com.example.strng.R
 import com.example.strng.databinding.SFragmentVerificationBinding
 import com.google.android.material.shape.CornerFamily
@@ -36,9 +38,9 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private var mVerificationId = ""
     private lateinit var mAuth: FirebaseAuth
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         verificationBinding = SFragmentVerificationBinding.inflate(layoutInflater)
         return verificationBinding.root
@@ -66,12 +68,12 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private fun initToolbar() {
         val radius = (resources.getDimension(R.dimen.spacing_70) / resources.displayMetrics.density)
         val materialShapeDrawable =
-            verificationBinding.toolbarVerification.background as MaterialShapeDrawable
+                verificationBinding.toolbarVerification.background as MaterialShapeDrawable
         materialShapeDrawable.shapeAppearanceModel = materialShapeDrawable.shapeAppearanceModel
-            .toBuilder()
-            .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
-            .setBottomRightCorner(CornerFamily.ROUNDED, radius)
-            .build()
+                .toBuilder()
+                .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+                .build()
     }
 
     private fun intiTextWatchers() {
@@ -140,7 +142,7 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private fun initData() {
         verificationBinding.apply {
             val text =
-                "${tvVerificationHeading.text} <font color='#14354A'><b>${authenticationViewModel.mobileNumber}?</b></font>"
+                    "${tvVerificationHeading.text} <font color='#14354A'><b>${authenticationViewModel.mobileNumber}?</b></font>"
             tvVerificationHeading.text = Html.fromHtml(text)
             initTimerForOTP()
         }
@@ -152,12 +154,11 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
         object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 verificationBinding.tvResendOtpTimer.text =
-                    "${verificationViewModel.countDownTimer.value.toString()}s"
+                        "${verificationViewModel.countDownTimer.value.toString()}s"
                 verificationViewModel.countDownTimer.value = --counter
             }
 
             override fun onFinish() {
-//                textView.setText("FINISH!!")
             }
         }.start()
 
@@ -166,15 +167,19 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private fun initClickListeners() {
         with(verificationBinding) {
             btnVerification.setOnClickListener {
-                verificationViewModel.checkOTP()
+//                verificationViewModel.checkOTP()
+                Intent(hostContext, SChatsActivity::class.java).apply {
+                    startActivity(this)
+                    hostContext.finish()
+                }
             }
             tvVerificationHeading.setOnClickListener {
                 hostContext.supportFragmentManager.apply {
                     val previousFragment = findFragmentById(R.id.fc_authentication_verification)
                     if (previousFragment != null) {
                         beginTransaction()
-                            .remove(previousFragment)
-                            .commit()
+                                .remove(previousFragment)
+                                .commit()
                         commit {
                             setReorderingAllowed(true)
                             replace<SLoginFragment>(R.id.fc_authentication_login)
@@ -206,7 +211,7 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
                     verificationBinding.tvResendOtp.setOnClickListener {
                         if (countDownTimer.value == 0)
                             initTimerForOTP()
-                        sendVerificationCode(authenticationViewModel.mobileNumber)
+//                        sendVerificationCode(authenticationViewModel.mobileNumber)
                     }
                 } else {
                     with(verificationBinding) {
@@ -220,39 +225,39 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
 
     private fun sendVerificationCode(number: String) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            "+91$number",
-            60,
-            TimeUnit.SECONDS,
-            hostContext,
-            mCallbacks
+                "+91$number",
+                60,
+                TimeUnit.SECONDS,
+                hostContext,
+                mCallbacks
         )
     }
 
     private val mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks =
-        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-                println("phone auth output   $phoneAuthCredential")
-                val code = phoneAuthCredential.smsCode
-                if (code != null) {
+            object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+                    println("phone auth output   $phoneAuthCredential")
+                    val code = phoneAuthCredential.smsCode
+                    if (code != null) {
 //                    verificationBinding.tieOtp4.setText(code)
-                    verifyVerificationCode(code)
+                        verifyVerificationCode(code)
+                    }
+                }
+
+                override fun onVerificationFailed(e: FirebaseException) {
+                    verificationBinding.tvVerificationResult.text = e.message
+                    Toast.makeText(hostContext, e.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onCodeSent(
+                        s: String,
+                        forceResendingToken: PhoneAuthProvider.ForceResendingToken
+                ) {
+                    super.onCodeSent(s, forceResendingToken)
+                    mVerificationId = s
+                    verificationBinding.tvVerificationResult.text = "Verification Code Sent"
                 }
             }
-
-            override fun onVerificationFailed(e: FirebaseException) {
-                verificationBinding.tvVerificationResult.text = e.message
-                Toast.makeText(hostContext, e.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onCodeSent(
-                s: String,
-                forceResendingToken: PhoneAuthProvider.ForceResendingToken
-            ) {
-                super.onCodeSent(s, forceResendingToken)
-                mVerificationId = s
-                verificationBinding.tvVerificationResult.text = "Verification Code Sent"
-            }
-        }
 
 
     private fun verifyVerificationCode(code: String) {
@@ -262,16 +267,16 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(
-                hostContext
-            ) { task ->
-                if (task.isSuccessful) {
-                    verificationBinding.tvVerificationResult.text = "Authentication Successful"
-                    println("Authentication Successful")
-                } else {
-                    verificationBinding.tvVerificationResult.text = "Authentication Failed"
-                    println("Authentication Failed")
+                .addOnCompleteListener(
+                        hostContext
+                ) { task ->
+                    if (task.isSuccessful) {
+                        verificationBinding.tvVerificationResult.text = "Authentication Successful"
+                        println("Authentication Successful")
+                    } else {
+                        verificationBinding.tvVerificationResult.text = "Authentication Failed"
+                        println("Authentication Failed")
+                    }
                 }
-            }
     }
 }
