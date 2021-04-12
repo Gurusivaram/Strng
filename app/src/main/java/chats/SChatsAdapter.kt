@@ -1,0 +1,4 @@
+package chats
+
+class SChatsAdapter {
+}
