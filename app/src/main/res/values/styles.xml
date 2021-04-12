@@ -15,7 +15,7 @@
         <item name="android:layout_marginBottom">@dimen/spacing_20</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/appText</item>
+        <item name="android:textColor">@color/appText1</item>
         <item name="android:letterSpacing">@dimen/text_spacing</item>
     </style>
 
@@ -25,9 +25,6 @@
         <item name="hintAnimationEnabled">false</item>
         <item name="hintEnabled">false</item>
         <item name="boxBackgroundMode">outline</item>
-<!--        <item name="android:layout_marginEnd">@dimen/spacing_15</item>-->
-<!--        <item name="android:layout_marginStart">@dimen/spacing_15</item>-->
-<!--        <item name="android:layout_marginTop">@dimen/spacing_15</item>-->
     </style>
 
     <style name="TextInput" parent="TextAppearance.AppCompat">
@@ -39,5 +36,16 @@
         <item name="android:paddingStart">@dimen/spacing_15</item>
         <item name="android:paddingEnd">@dimen/spacing_15</item>
         <item name="android:paddingBottom">@dimen/spacing_10</item>
+    </style>
+
+    <style name="ProfileImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30%</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/appColor</item>
+        <item name="colorPrimaryDark">@color/appColorStatusBar</item>
+        <item name="colorAccent">@color/appText1</item>
     </style>
 </resources>

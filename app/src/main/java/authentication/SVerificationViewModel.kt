@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SVerificationViewModel : ViewModel() {
+class SVerificationViewModel(application: Application) : AndroidViewModel(application) {
     var otp1 = ""
     var otp2 = ""
     var otp3 = ""
@@ -23,5 +23,6 @@ class SVerificationViewModel : ViewModel() {
         isOTPNumberValid.value =
             (otp1.isNotEmpty() && otp2.isNotEmpty() && otp3.isNotEmpty() && otp4.isNotEmpty() && otp5.isNotEmpty() && otp6.isNotEmpty())
         println(isOTPNumberValid.value)
+        println("$otp1$otp2$otp3$otp4$otp5$otp6")
     }
 }

@@ -221,7 +221,7 @@
         android:elevation="@dimen/spacing_4"
         android:letterSpacing="0.2"
         android:text="@string/verify"
-        android:textColor="@color/appText"
+        android:textColor="@color/appText1"
         app:backgroundTint="@color/appColorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

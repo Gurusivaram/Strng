@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import authentication.SAuthenticationActivity
+import chats.MainActivity
+import chats.SChatsActivity
 import com.example.strng.databinding.SActivitySplashBinding
 import constants.SConstants.SPLASH_SHOW_TIME
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SLoginViewModel : ViewModel() {
+class SLoginViewModel(application: Application) : AndroidViewModel(application) {
     var mobileNumber = ""
     val isMobileNumberValid by lazy {
         MutableLiveData<Boolean>()
