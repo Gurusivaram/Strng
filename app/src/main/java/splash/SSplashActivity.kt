@@ -22,7 +22,7 @@ class SSplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         Handler().postDelayed({
-            val intent = Intent(this, SChatsActivity::class.java)
+            val intent = Intent(this, SAuthenticationActivity::class.java)
             startActivity(intent)
             finish()
         }, SPLASH_SHOW_TIME.toLong())

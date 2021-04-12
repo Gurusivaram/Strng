@@ -52,7 +52,7 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
         verificationViewModel = ViewModelProvider(this).get(SVerificationViewModel::class.java)
         alerts = SUtils(hostContext)
         mAuth = FirebaseAuth.getInstance()
-//        sendVerificationCode(authenticationViewModel.mobileNumber)
+        sendVerificationCode(authenticationViewModel.mobileNumber)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -166,11 +166,11 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
     private fun initClickListeners() {
         with(verificationBinding) {
             btnVerification.setOnClickListener {
-//                verificationViewModel.checkOTP()
-                Intent(hostContext, SChatsActivity::class.java).apply {
-                    startActivity(this)
-                    hostContext.finish()
-                }
+                verificationViewModel.checkOTP()
+//                Intent(hostContext, SChatsActivity::class.java).apply {
+//                    startActivity(this)
+//                    hostContext.finish()
+//                }
             }
             tvVerificationHeading.setOnClickListener {
                 hostContext.supportFragmentManager.apply {
@@ -210,7 +210,7 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
                     verificationBinding.tvResendOtp.setOnClickListener {
                         if (countDownTimer.value == 0)
                             initTimerForOTP()
-//                        sendVerificationCode(authenticationViewModel.mobileNumber)
+                        sendVerificationCode(authenticationViewModel.mobileNumber)
                     }
                 } else {
                     with(verificationBinding) {
@@ -272,6 +272,10 @@ class SVerificationFragment : Fragment(R.layout.s_fragment_verification) {
                     if (task.isSuccessful) {
                         verificationBinding.tvVerificationResult.text = "Authentication Successful"
                         println("Authentication Successful")
+                        Intent(hostContext, SChatsActivity::class.java).apply {
+                            startActivity(this)
+                            hostContext.finish()
+                        }
                     } else {
                         verificationBinding.tvVerificationResult.text = "Authentication Failed"
                         println("Authentication Failed")

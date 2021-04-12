@@ -40,7 +40,7 @@
 
     <style name="ProfileImage">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">37.5%</item>
+        <item name="cornerSize">30%</item>
     </style>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">

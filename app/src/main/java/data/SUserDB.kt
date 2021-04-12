@@ -1,23 +1,34 @@
-package Data
+package data
 
-import androidx.room.*
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Dao
-interface SUserDB {
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun setUser(user: CLUser)
+@Database(entities = [SUserEntity::class], version = 1, exportSchema = false)
+@TypeConverters(SContactsTypeConverter::class)
+abstract class SUserDB : RoomDatabase() {
+    companion object {
+        @Volatile
+        private var INSTANCE: SUserDB? = null
 
+        fun getDatabase(context: Context): SUserDB {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    SUserDB::class.java,
+                    "DB"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
 
+        fun destroyDataBase() {
+            INSTANCE = null
+        }
+    }
 
-//    @Query("SELECT * FROM USERS WHERE email == :email")
-//    suspend fun getUser(email: String): CLUser?
-//
-//    @Update
-//    suspend fun updateUser(user: CLUser)
-//
-//    @Delete
-//    suspend fun deleteUser(user: CLUser)
-//
-//    @Query("SELECT * FROM USERS")
-//    suspend fun getAllUsers(): MutableList<CLUser>
+    abstract fun userDao(): SUserDao?
 }
