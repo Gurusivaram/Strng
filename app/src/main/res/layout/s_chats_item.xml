@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_chats_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_15"
+    android:layout_marginBottom="@dimen/spacing_15">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_chat_item_profile_pic"
+        android:layout_width="@dimen/spacing_50"
+        android:layout_height="@dimen/spacing_50"
+        android:layout_marginStart="15dp"
+        android:background="@color/appColorSecondary"
+        android:scaleType="fitXY"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ProfileImage"
+        app:srcCompat="@drawable/ic_person" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_chat_item_active_status"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/bg_active_status"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:translationX="-9dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_chat_item_profile_pic"
+        app:layout_constraintStart_toEndOf="@+id/iv_chat_item_profile_pic" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_chat_item_profile_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:text="Gurusivaram K"
+        android:textColor="@color/appColor"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/tv_chat_item_last_chat"
+        app:layout_constraintEnd_toStartOf="@+id/tv_chat_item_time_stamp"
+        app:layout_constraintStart_toEndOf="@+id/iv_chat_item_profile_pic"
+        app:layout_constraintTop_toTopOf="@+id/iv_chat_item_profile_pic" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_chat_item_last_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="50dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Hey how are you man? Hey how are you man? Hey how are you man?\"
+        android:textColor="@color/appText2"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_chat_item_unread_count"
+        app:layout_constraintStart_toEndOf="@+id/iv_chat_item_profile_pic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_chat_item_profile_name" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_chat_item_time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:text="12:21pm"
+        android:textColor="@color/appText2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_chat_item_unread_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_chat_item_unread_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/spacing_6"
+        android:paddingEnd="@dimen/spacing_6"
+        android:text="14"
+        android:textColor="@color/appColor"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_chat_item_time_stamp"
+        app:layout_constraintStart_toStartOf="@+id/tv_chat_item_time_stamp" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_chat_item_seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_chat_item_time_stamp"
+        app:layout_constraintStart_toStartOf="@+id/tv_chat_item_time_stamp"
+        app:srcCompat="@drawable/ic_seen" />
+</androidx.constraintlayout.widget.ConstraintLayout>

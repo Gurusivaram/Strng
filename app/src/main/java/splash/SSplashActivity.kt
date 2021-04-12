@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import com.example.strng.MainActivity
+import authentication.SAuthenticationActivity
+import chats.MainActivity
+import chats.SChatsActivity
 import com.example.strng.databinding.SActivitySplashBinding
 import constants.SConstants.SPLASH_SHOW_TIME
 
@@ -20,7 +22,7 @@ class SSplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         Handler().postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SAuthenticationActivity::class.java)
             startActivity(intent)
             finish()
         }, SPLASH_SHOW_TIME.toLong())
