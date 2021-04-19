@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Strng</string>
     <string name="error_mobile_number_invalid">Please enter valid mobile number</string>
+    <string name="elon_musk">Elon Musk</string>
     <string name="get_in">Get In</string>
     <string name="login_header">Verify your phone number</string>
     <string name="login_info">You will receive a text message with OTP to the below mobile number for verification</string>
@@ -10,6 +11,8 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="new_conversation">New Conversation</string>
     <string name="okay">Okay</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="refresh">Refresh</string>
     <string name="settings">Settings</string>
@@ -19,4 +22,13 @@
     <string name="verification">Verification</string>
     <string name="verify">Verify</string>
     <string name="verification_heading">Please enter the OTP received through SMS to</string>
+
+    <string name="about">About</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="account">Account</string>
+    <string name="messages">Messages</string>
+    <string name="privacy">Privacy</string>
+    <string name="notifications">Notifications</string>
+    <string name="help">Help</string>
 </resources>

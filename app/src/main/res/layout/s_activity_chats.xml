@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_profile_pic"
+                android:id="@+id/iv_profile_image"
                 android:layout_width="@dimen/spacing_60"
                 android:layout_height="@dimen/spacing_60"
                 android:layout_marginStart="@dimen/spacing_20"
@@ -60,8 +60,8 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:translationX="-12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_profile_pic"
-                app:layout_constraintStart_toEndOf="@+id/iv_profile_pic" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_profile_image"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_image" />
 
             <ImageButton
                 android:id="@+id/ib_search"
@@ -83,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/iv_profile_pic"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu" />
         </androidx.constraintlayout.widget.ConstraintLayout>

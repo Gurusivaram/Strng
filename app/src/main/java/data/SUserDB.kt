@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(entities = [SUserEntity::class], version = 1, exportSchema = false)
-@TypeConverters(SContactsTypeConverter::class)
+@TypeConverters(SContactsTypeConverter::class, SUserImageTypeConverter::class)
 abstract class SUserDB : RoomDatabase() {
     companion object {
         @Volatile

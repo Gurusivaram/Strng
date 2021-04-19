@@ -23,11 +23,13 @@ import utils.SApplication
 class SContactsActivity : AppCompatActivity() {
     private lateinit var contactsBinding: SActivityContactsBinding
     private val db = SApplication.getDB().userDao()
-    private lateinit var contactsAdapter: SContactsAdapter
     private val contactsViewModel by lazy {
         ViewModelProvider(this).get(SContactsViewModel::class.java)
     }
 
+    companion object{
+        const val PERMISSIONS_REQUEST_READ_CONTACTS= 100
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         contactsBinding = SActivityContactsBinding.inflate(layoutInflater)
@@ -61,7 +63,7 @@ class SContactsActivity : AppCompatActivity() {
                 println(it.size)
                 contactsBinding.rvContacts.adapter = SContactsAdapter(it)
                 GlobalScope.launch(IO){
-                    db?.insertUserInfo(SUserEntity(null, "guru", it.toList()))
+                    db?.insertUserInfo(SUserEntity(null, "guru", it.toList(), null))
                 }
             })
         }
@@ -93,7 +95,7 @@ class SContactsActivity : AppCompatActivity() {
         ) {
             requestPermissions(
                 arrayOf(Manifest.permission.READ_CONTACTS),
-                MainActivity.PERMISSIONS_REQUEST_READ_CONTACTS
+                PERMISSIONS_REQUEST_READ_CONTACTS
             )
             //callback onRequestPermissionsResult
         } else {
@@ -145,7 +147,7 @@ class SContactsActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == MainActivity.PERMISSIONS_REQUEST_READ_CONTACTS) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 loadContacts()
             } else {
