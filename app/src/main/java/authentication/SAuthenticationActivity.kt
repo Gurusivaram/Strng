@@ -117,7 +117,6 @@ class SAuthenticationActivity : AppCompatActivity() {
 //         configuration and read from the gradle.properties file.
 //         */
 //        val client = SafetyNet.getClient(this)
-//        val task = client.attest(nonce!!, "AIzaSyDf2WBYVU3oy62mwQU5LLd3559ANM3LTcU")
 //        task.addOnSuccessListener(this, mSuccessListener)
 //            .addOnFailureListener(this, mFailureListener)
 //    }
